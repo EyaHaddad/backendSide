@@ -11,7 +11,8 @@ public class UserMapper {
                 user.getUserId(),
                 user.getName(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
     }
     public static User mapToUser(UserDto userDto){

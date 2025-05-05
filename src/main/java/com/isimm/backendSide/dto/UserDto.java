@@ -11,12 +11,22 @@ public class UserDto {
     private String email;
     private String password;
     private String token;
+    private Role role;
 
-    public UserDto(Long userId,String email, String name,String password) {
+    public UserDto(Long userId,String email, String name,String password, Role role) {
         this.userId = userId;
         this.name=name;
         this.email = email;
         this.password = password;
+        this.role=role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getToken() {
