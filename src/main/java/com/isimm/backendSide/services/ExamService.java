@@ -12,4 +12,5 @@ public interface ExamService {
     ExamDto updateExam(Long examId, ExamDto updatedExam);
     void deleteExam (Long examId);
     Exam findById(Long id);
+    List<String> getAllSubjects();
 }

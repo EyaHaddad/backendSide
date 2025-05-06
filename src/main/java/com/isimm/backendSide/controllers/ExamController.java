@@ -46,4 +46,9 @@ public class ExamController {
         examService.deleteExam(id);
         return ResponseEntity.ok("Exam deleted successfully!");
     }
+    @GetMapping("/subjects")
+    public ResponseEntity<List<String>> getAllSubjects() {
+        List<String> subjects = examService.getAllSubjects();
+        return ResponseEntity.ok(subjects);
+    }
 }

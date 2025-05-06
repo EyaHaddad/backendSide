@@ -16,4 +16,6 @@ public interface ExamRepository extends JpaRepository<Exam,Long> {
 
     @Query("select e from Exam e where e.subject like :x")
     List<Exam> findByName(@Param("x")String mc);
+    @Query("select distinct e.subject from Exam e ")
+    List<String> getSubjects();
 }

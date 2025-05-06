@@ -78,4 +78,13 @@ public class ExamServiceImpl implements ExamService {
         return ExamRepository.findById(id).orElseThrow(
                 ()-> new RessourceNotFoundException("Exam is not exists with given id :"+id));
     }
+    @Override
+    public List<String> getAllSubjects() {
+        List<String> subjects = ExamRepository.getSubjects();
+        if (subjects == null || subjects.isEmpty()) {
+            throw new RessourceNotFoundException("Aucune matière disponible.");
+        }
+        return subjects;
+    }
+
 }

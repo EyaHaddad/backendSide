@@ -21,24 +21,24 @@ public class Exam {
     private String subject;
 
     @ManyToOne
-    @JoinColumn(name = "departmentId", nullable = false)
+    @JoinColumn(name = "departmentId", nullable = true)
     private Department departmentE;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate examDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalTime endTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Min(1)
     @Max(5)
     private int difficulty;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int coefficient;
 
     @CreationTimestamp
@@ -49,7 +49,7 @@ public class Exam {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isDuplicate;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
