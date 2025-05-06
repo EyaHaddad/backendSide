@@ -1,11 +1,10 @@
 package com.isimm.backendSide.services.Impl;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +13,6 @@ import java.util.function.Function;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 @Service
@@ -30,8 +27,8 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                //this token is applicable for only 10 hours
+                .expiration(new Date(System.currentTimeMillis() + 60 * 2 * 1000))
+                //this token is applicable for only 24 hours
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -47,11 +44,17 @@ public class JWTService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (ExpiredJwtException e) {
+            // Tu peux logger ou renvoyer une info utile ici
+            System.out.println("Token expiré : " + e.getMessage());
+            throw e; // ou retourne null, ou gère autrement
+        }
     }
 
     private boolean isTokenExpired(String token) {

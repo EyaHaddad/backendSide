@@ -5,6 +5,7 @@ import org.apache.http.HttpHeaders;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebMvc
+@EnableMethodSecurity
 public class WebConfig {
         /*pour assurer la communication avec le frontend*/
     @Bean
@@ -33,10 +35,10 @@ public class WebConfig {
                 HttpMethod.POST.name(),
                 HttpMethod.DELETE.name()
         ));
-        config.setMaxAge(3600L);
-        source.registerCorsConfiguration("/**",config);
+        config.setMaxAge(3600L); //this is the time the option request is accepted
+        source.registerCorsConfiguration("/**",config); //applied for all the requests
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(-102);
+        bean.setOrder(-102); //used before any security spring filter
         return bean;
     }
 }

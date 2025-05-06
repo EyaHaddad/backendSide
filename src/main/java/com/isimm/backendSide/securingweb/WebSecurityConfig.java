@@ -4,6 +4,7 @@ import com.isimm.backendSide.services.Impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity // Go with my configuration not the default one
+
 public class WebSecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -41,7 +43,7 @@ public class WebSecurityConfig {
             //any request should be authenticated
             .authorizeHttpRequests(request -> request
                     //pour les pages register et login, on peut y acceder sans authentification
-                    .requestMatchers("/api/users/register","/api/users/login").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/api/users/register","/api/users/login").permitAll()
                     .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults()) //pour rest API avec postman
             //désactiver les sessions
